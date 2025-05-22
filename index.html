@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background-color: black;">
+    <section class="container p-5">
+        <div class="">
+            <h1>Random & strong password generator</h1>
+        </div>
+        <div id="display" style="font-size: 25px; " class="bg-light px-3 my-3">Show</div>
+        <div class="d-flex gap-2 fs-5">
+            <label for="Length">Length</label>
+            <input type="range" name="" id="length" class="form-range" min="8" max="20" step="1">
+            <h6 id="lengthValue">12</h6>
+        </div>
+       <div id="checkParent" class="d-flex flex-column gap-2">
+         <div style="margin-left: -50px;" class="d-flex">
+            <input id="upperCase" style="width:100px; height: 40px;" type="checkbox" class="">
+            <label style="font-size: 25px;" for="upperCase" class="">Uppercase Letters</label>
+        </div>
+         <div style="margin-left: -50px;" class="d-flex ">
+            <input id="lowerCase" style="width:100px; height: 40px;" type="checkbox" class="">
+            <label style="font-size: 25px;" for="lowerCase" class="">Lowercase Letters</label>
+        </div>
+         <div style="margin-left: -50px;" class="d-flex">
+            <input id="numbers" style="width:100px; height: 40px;" type="checkbox" class="">
+            <label style="font-size: 25px;" for="numbers" class="">Numbers</label>
+        </div>
+         <div style="margin-left: -50px;" class="d-flex ">
+            <input id="symbols" style="width:100px; height: 40px;" type="checkbox" class="">
+            <label style="font-size: 25px;" for="symbols" class="">Special characters</label>
+        </div>
+       </div>
+        <div>
+            <button id="generate" style="font-size: 30px;" class="btn bg-info">Create password</button>
+            <button id="copy" style="font-size: 30px;" class="btn bg-light">Copy</button>
+        </div>
+        <div id="errorMsg" style="display:none ; font-size: 25px; color: red;">
+            Select at least one option
+        </div>
+    </section>
+</body>
+<script>
+const display = document.getElementById('display');
+const generate = document.getElementById('generate')
+const copy = document.getElementById('copy');
+const length = document.getElementById('length');
+const lengthValue = document.getElementById('lengthValue')
+
+
+length.addEventListener('input', () => {
+lengthValue.innerHTML = length.value
+console.log(length.value)
+})
+
+let charset = '';
+generate.addEventListener('click', () => {
+    const includeUppercase = document.getElementById('upperCase').checked
+    const includeLowercase = document.getElementById('lowerCase').checked
+    const includeNumbers = document.getElementById('numbers').checked
+    const includeSymbols = document.getElementById('symbols').checked
+
+    if (includeUppercase) {
+        charset += `ABCDEFGHIJKLMNOPQRSTUVWXYZ`
+    }
+    if (includeLowercase) {
+        charset += `abcdefghijklmnopqrstuvwxyz`
+    }
+    if (includeNumbers) {
+        charset += `0123456789`
+    }
+    if (includeSymbols) {
+        charset += '!@#$%^&*()_+~`|}{[]\\:;?><,./-='
+    }
+     if (charset === '') {
+                // const errorMsg = document.getElementById('error-msg')
+                // errorMsg.style.display= 'block'
+                // console.log('rubbish');
+                errorMsg.style.display='block'
+                display.innerHTML= '!please select your password preference'
+                return;
+            }
+    else{
+                errorMsg.style.display='none'
+
+    }
+    let proLength = Number(length.value);
+    let password = ''
+    for (let i=0; i<proLength; i++) {
+        // password += charset[Math.floor(Math.random() * charset.length)]
+        const randomIndex = Math.floor(Math.random() * charset.length)
+        password += charset[randomIndex]
+        
+    }
+    display.innerHTML = password
+
+})
+
+let copyFunc = document.getElementById('copy');
+
+copyFunc.addEventListener('click', () => {
+
+    if (charset == '') {
+        errorMsg.style.display= 'none'
+        display.innerHTML='You have to generate password before copying'
+        copyFunc.style.backgroundColor= 'red'
+
+    }
+    else{
+
+            errorMsg.style.display= 'block'
+            navigator.clipboard.writeText(display.innerHTML)
+            copyFunc.innerHTML = 'copied'
+    }
+})
+
+// lengthValue.innerHTML = length.value;
+// console.log(length);
+
+</script>
+</html>
