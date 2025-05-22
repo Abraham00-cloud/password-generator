@@ -98,6 +98,8 @@ generate.addEventListener('click', () => {
         
     }
     display.innerHTML = password
+            copyFunc.innerHTML = 'copy'
+
 
 })
 
@@ -106,14 +108,14 @@ let copyFunc = document.getElementById('copy');
 copyFunc.addEventListener('click', () => {
 
     if (charset == '') {
-        errorMsg.style.display= 'none'
+        errorMsg.style.display= 'block'
         display.innerHTML='You have to generate password before copying'
         copyFunc.style.backgroundColor= 'red'
 
     }
     else{
 
-            errorMsg.style.display= 'block'
+            errorMsg.style.display= 'none'
             navigator.clipboard.writeText(display.innerHTML)
             copyFunc.innerHTML = 'copied'
     }
